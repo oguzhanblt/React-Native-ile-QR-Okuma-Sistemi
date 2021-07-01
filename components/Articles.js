@@ -24,7 +24,7 @@ import  firebase  from 'firebase';
                     <View style={styles.container}>
                         <TouchableOpacity style={styles.cikisButon} onPress={() => firebase.auth().signOut()} >
                             <Image source={require('../src/image/geriDonus.png')}
-                            style={{ height: 35, width: 35, marginTop: 20,right:20 }} resizeMode='contain' />
+                            style={{ height: 35, width: 35, marginTop: 8}} resizeMode='contain' />
                         </TouchableOpacity>
                     <Image source={require('../src/image/Logo.png')}
                             style={{ height: 120, width: 200, marginTop: 0 }} resizeMode='contain' />

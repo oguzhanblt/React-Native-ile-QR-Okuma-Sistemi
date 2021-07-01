@@ -67,7 +67,7 @@ const qrOkut = () => {
                     <TouchableOpacity style={styles.cikisButon} title="Back"
       onPress={() => {MyBackButton() }}>
                         <Image source={require('../src/image/back.png')}
-                            style={{ height: 35, width: 35 }} resizeMode='contain' />
+                            style={{ height: 35, width: 35, right:170}} resizeMode='contain' />
                     </TouchableOpacity>
                 </View>
             { result &&
@@ -88,7 +88,7 @@ const qrOkut = () => {
                  onRead={this.onSuccess}
                  topContent={
                   <Image source={require('../src/image/vbLogo.png')}
-                    style={{height:40,width:40,marginBottom:60}}resizeMode='contain'/>
+                    style={{height:40,width:40,marginBottom:80}}resizeMode='contain'/>
                 }
                  bottomContent={
                    <TouchableOpacity style={styles.buttonTouchable} onPress={() =>BackHandler('Articles')}>
