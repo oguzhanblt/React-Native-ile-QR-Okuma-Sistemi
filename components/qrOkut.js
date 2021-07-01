@@ -6,14 +6,16 @@ import React, { useState, useEffect } from 'react';
    TouchableOpacity,
    ImageBackground,
    BackHandler,
-   Image,
+   Image,Alert,
  } from 'react-native';
  import base64 from 'react-native-base64';
  import QRCodeScanner from 'react-native-qrcode-scanner';
  import firebase from "firebase/app";
  import "firebase/database";
- import { useNavigation } from '@react-navigation/native';
-const qrOkut = () => {
+
+
+
+ const qrOkut = ({navigation}) => {
   const [scan, setScan] = useState(false)
   const [result, setResult] = useState()
   const [currentDate, setCurrentDate]= useState(' ')
@@ -44,41 +46,32 @@ const qrOkut = () => {
         mail:(firebase.auth().currentUser.email),
         servis:(base64.decode(result))
       })
-      .then(()=>firebase.auth().signOut())
+      .then(()=>navigation.navigate('Articles'))
      
 
     }
-    function MyBackButton() {
-      const navigation = useNavigation();
     
-      return (
-        <Button
-          title="Back"
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      );
-    }
+    
    return (
      <>
      <ImageBackground source={require('../src/image/background.jpg')} style={styles.BackgroundImage}>
      <View>
                     <TouchableOpacity style={styles.cikisButon} title="Back"
-      onPress={() => {MyBackButton() }}>
+      onPress={() =>{navigation.navigate('Articles')}}>
                         <Image source={require('../src/image/back.png')}
-                            style={{ height: 35, width: 35, right:170}} resizeMode='contain' />
+                            style={{ height: 35, width: 35 }} resizeMode='contain' />
                     </TouchableOpacity>
                 </View>
             { result &&
-              <View style={styles.sectionContainerOnay}>
-                <TouchableOpacity onPress={writeUserData} title={base64.decode(result)}> 
+            
+              <View style={styles.sectionContainerOnay}>               
+                 <TouchableOpacity onPress={writeUserData} title={base64.decode(result)}> 
                 <Text style={styles.bilgi}>Göndermek İçin Tıklayınız.</Text>
-                  <Image source={require('../src/image/click.png')}
-                    style={{height:200,width:200,marginTop:15,marginBottom:25 }}resizeMode='contain'/>
-                </TouchableOpacity>
-              </View>
-            }
+                 <Image source={require('../src/image/click.png')}
+                  style={{height:200,width:200,marginTop:15,marginBottom:25 }}resizeMode='contain'/>}
+                </TouchableOpacity> 
+                </View>
+              }
              { scan &&
                <View style={styles.sectionContainer}>
                <QRCodeScanner
@@ -87,20 +80,21 @@ const qrOkut = () => {
                  ref={(node) => { this.scanner = node }}
                  onRead={this.onSuccess}
                  topContent={
-                  <Image source={require('../src/image/vbLogo.png')}
-                    style={{height:40,width:40,marginBottom:80}}resizeMode='contain'/>
-                }
-                 bottomContent={
-                   <TouchableOpacity style={styles.buttonTouchable} onPress={() =>BackHandler('Articles')}>
+                   <Image source={require('../src/image/vbLogo.png')}
+                   style={{height:40,width:40,marginBottom:80}}resizeMode='contain'/>
+                  }
+                  bottomContent={
+                    <TouchableOpacity style={styles.buttonTouchable} onPress={() =>BackHandler('Articles')}>
                      <Text style={styles.buttonText}>Telefonunuzu QR kodu okuyabilecek şekilde tutunuz.</Text>
                    </TouchableOpacity>
                  }
-               />
+                 />
              </View>
              }
+             
 
+             </ImageBackground>
             
-     </ImageBackground>
      </>
    );
  };
@@ -137,5 +131,4 @@ bilgi:{
   left:10
 }
  });
- 
  export default qrOkut;
