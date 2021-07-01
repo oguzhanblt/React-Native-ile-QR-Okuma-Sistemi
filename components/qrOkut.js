@@ -7,13 +7,12 @@ import React, { useState, useEffect } from 'react';
    ImageBackground,
    BackHandler,
    Image,
-   Button,
  } from 'react-native';
  import base64 from 'react-native-base64';
  import QRCodeScanner from 'react-native-qrcode-scanner';
  import firebase from "firebase/app";
  import "firebase/database";
- 
+ import { useNavigation } from '@react-navigation/native';
 const qrOkut = () => {
   const [scan, setScan] = useState(false)
   const [result, setResult] = useState()
@@ -49,10 +48,28 @@ const qrOkut = () => {
      
 
     }
+    function MyBackButton() {
+      const navigation = useNavigation();
+    
+      return (
+        <Button
+          title="Back"
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+      );
+    }
    return (
      <>
      <ImageBackground source={require('../src/image/background.jpg')} style={styles.BackgroundImage}>
-           
+     <View>
+                    <TouchableOpacity style={styles.cikisButon} title="Back"
+      onPress={() => {MyBackButton() }}>
+                        <Image source={require('../src/image/back.png')}
+                            style={{ height: 35, width: 35 }} resizeMode='contain' />
+                    </TouchableOpacity>
+                </View>
             { result &&
               <View style={styles.sectionContainerOnay}>
                 <TouchableOpacity onPress={writeUserData} title={base64.decode(result)}> 
@@ -87,7 +104,7 @@ const qrOkut = () => {
      </>
    );
  };
- 
+
  const styles = StyleSheet.create({
   buttonText: {
     fontSize: 15,
